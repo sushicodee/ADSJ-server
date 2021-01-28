@@ -78,6 +78,5 @@ blogModel.pre('save', async function (next) {
   this.address = undefined;
   next();
 });
-// eslint-disable-next-line no-multi-assign
-const BlogModel = mongoose.model('blog', blogModel);
-module.exports = BlogModel;
+
+module.exports = BlogModel = mongoose.model('blog', blogModel);

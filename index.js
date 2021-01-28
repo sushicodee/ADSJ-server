@@ -8,10 +8,11 @@ const express = require('express');
 
 const cors = require('cors');
 
-const { PORT, API, BASE_URL } = require('./configs/index');
-const apiRoutes = require('./routes/api.routes');
+const { PORT, API } = require('./src/configs/index');
+const apiRoutes = require('./src/routes/api.routes');
 
-const errorHandlingMiddleware = require('./middlewares/errorHandling');
+const errorHandlingMiddleware = require('./src/middlewares/errorHandling');
+const { limiter, speedLimiter } = require('./src/middlewares/rateLimit');
 
 const app = express();
 app.use(express.json());
@@ -22,17 +23,20 @@ app.use(
   })
 );
 
-require('./configs/dbconfigs');
+require('./src/configs/dbconfigs');
 
+app.set('trust proxy', 1);
 app.use(morgan('common'));
 app.use(helmet());
 
 app.get('/', (req, res) => res.json({ message: 'hello' }));
-app.use(API, apiRoutes);
-
+// routes
+app.use(API, limiter, speedLimiter, apiRoutes);
+// error handling middleware
 app.use(errorHandlingMiddleware.notFound);
 app.use(errorHandlingMiddleware.errorHandler);
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`server listening at port ${PORT}`);
 });
