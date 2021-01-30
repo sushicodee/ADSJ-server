@@ -4,17 +4,17 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    googleId: {
-      type: String,
-      unique: true,
-      // required: true,
-    },
     image: String,
     timelineImage: String,
+    name: {
+      type: String,
+      trim: true,
+      min: 1,
+      max: 50,
+    },
     username: {
       type: String,
       unique: true,
-      required: true,
       lowercase: true,
       trim: true,
       min: 6,
@@ -40,7 +40,11 @@ const userSchema = new Schema(
       data: String,
       default: '',
     },
-    verified: {
+    emailNotifications: {
+      type: Boolean,
+      default: false,
+    },
+    blocked: {
       type: Boolean,
       default: false,
     },

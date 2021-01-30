@@ -2,29 +2,15 @@ const router = require('express').Router();
 const AuthController = require('./../../controllers/auth.controller');
 // const passport = require('passport');
 
-router.post('/signup', AuthController.register);
-
-// router.post('/login', async (res, req) => {
-//   const { errors, valid } = validateLoginInput(username, password);
-//   if (!valid) {
-//     res.status(400).send({ msg: errors });
-//   }
-//   const user = await userModel.findOne({ username });
-//   if (!user) {
-//     errors.general = "Username dosen't exist";
-//     res.status(400).send({ msg: errors });
-//   } else {
-//     const match = await bcrypt.compare(password, user.password);
-//     errors.general = 'Wrong Password';
-//     if (!match) {
-//       res.status(400).send({ msg: errors });
-//     }
-//     res.status(200).send({
-//       ...user._doc,
-//       id: user._id,
-//     });
-//   }
-// });
+router
+  .post('/activation', AuthController.activation)
+  .post('/signup', AuthController.register)
+  .post('/login', AuthController.login)
+  .post('/googlelogin', AuthController.googleLogin)
+  .post('/facebookLogin', AuthController.facebookLogin)
+  .post('/password/passwordForgot', AuthController.forgotPassword)
+  .post('/password/reset', AuthController.resetPassword)
+  .post('/renew', AuthController.renewToken);
 
 // router.post('logout', (req, res) => {
 //   res.send('logout');
