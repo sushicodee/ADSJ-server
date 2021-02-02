@@ -44,11 +44,27 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    postNotifications: {
+      type: Boolean,
+      default: false,
+    },
     blocked: {
       type: Boolean,
       default: false,
     },
+    dob: Date || null,
+    gender: {
+      type: String,
+      enum: ['male', 'female', 'others', ''],
+    },
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'active',
+    },
+    description: String,
   },
+
   { timestamps: true }
 );
 

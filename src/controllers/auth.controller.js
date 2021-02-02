@@ -31,7 +31,7 @@ function generateToken(user, type = '') {
       ? JWT_SECRET_RESET
       : ' ';
   const expiresIn =
-    type === 'access' ? '1hr' : type === 'refresh' ? '7d' : '30min';
+    type === 'access' ? '1d' : type === 'refresh' ? '7d' : '30min';
   return `Bearer ${JWT.sign({ ...user }, SECRET, { expiresIn })}`;
 }
 

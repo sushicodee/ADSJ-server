@@ -3,7 +3,7 @@ const BlogQuery = require('../query/blog.query');
 
 const insert = async (req, res, next) => {
   try {
-    const data = await BlogQuery.insert(req);
+    const data = await BlogQuery.insert(req, res);
     res.status(200).json({ data, success: true, status: 200 });
   } catch (err) {
     next(err);
@@ -17,6 +17,17 @@ const findAll = async (req, res, next) => {
   } catch (err) {
     return next({ ...err, status: false });
   }
+};
+
+const findById = (req, res, next) => {
+  const condition = { id: req.params.id };
+  BlogQuery.findOne(condition)
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
 
 const update = async (req, res, next) => {
@@ -35,26 +46,41 @@ const update = async (req, res, next) => {
   }
 };
 
-const findById = async (req, res, next) => {
+const remove = (req, res, next) => {
+  BlogQuery.remove(req.params.id, res, next);
+};
+
+const getFeatured = async (req, res, next) => {
   try {
-    const product = await BlogQuery.findById(req.params.id);
-    if (!product) {
-      return next({ msg: 'Product not found', success: false, status: 500 });
-    }
-    res.status(200).json({ product, success: true, status: 200 });
+    const blogs = await BlogQuery.getFeatured();
+    res.status(200).json(blogs);
   } catch (err) {
     return next(err);
   }
 };
 
-const remove = (req, res, next) => {
-  BlogQuery.remove(req.params.id, res, next);
+const getMainFeatured = async (req, res, next) => {
+  try {
+    const blogs = await BlogQuery.getMainFeatured();
+    res.status(200).json(blogs);
+  } catch (err) {
+    return next(err);
+  }
 };
 
+const like = async (req, res, next) => {
+  console.log(req.user);
+  const user = req.loggedInUser.id;
+  const { id } = req.params.id || req.body.id;
+  const likes = await BlogQuery.like(id, user);
+};
 module.exports = {
   insert,
   findAll,
   remove,
   update,
   findById,
+  getFeatured,
+  getMainFeatured,
+  like,
 };

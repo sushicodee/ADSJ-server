@@ -12,34 +12,4 @@ router
   .post('/password/reset', AuthController.resetPassword)
   .post('/renew', AuthController.renewToken);
 
-// router.post('logout', (req, res) => {
-//   res.send('logout');
-// });
-
-// router.get(
-//   '/google',
-//   passport.authenticate('google', {
-//     scope: ['profile', 'email'],
-//   })
-// );
-
-// router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-//   res.redirect('/profile');
-// });
-
-// router.get(
-//   '/facebook',
-//   passport.authenticate('facebook', {
-//     scope: ['profile', 'email'],
-//   })
-// );
-
-// router.get(
-//   '/google/redirect',
-//   passport.authenticate('facebook'),
-//   (req, res) => {
-//     res.redirect('/profile');
-//   }
-// );
-
 module.exports = router;
